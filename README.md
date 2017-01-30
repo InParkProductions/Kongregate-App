@@ -14,4 +14,4 @@ DEVELEOPMENT TEAM
       - Programmer
       
   * Levi Miller
-      - Graphics artist
+      - Menu and UI artist
