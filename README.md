@@ -2,17 +2,17 @@
 DEVELEOPMENT TEAM
 =================
 
-  _** Bobby Tagget **_
+  _**Bobby Tagget**_
       - Game Programmer
       - Music Programmer
-  _** Josh Merkas **_
+  _**Josh Merkas**_
       - 2D Modeller
       - Animator
       
-  _** Sean Rico Tu **_
+  _**Sean Rico Tu**_
       - Programmer
       
-  _** Levi Miller **_
+  _**Levi Miller**_
       - Menu and UI artist
 
 DESCRIPTION
