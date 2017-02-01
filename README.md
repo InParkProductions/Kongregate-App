@@ -1,27 +1,25 @@
-
-DEVELEOPMENT TEAM
-=================
-
-  _**Bobby Tagget**_
+###__DEVELOPMENT TEAM__
+  
+  [Bobby Tagget](https://www.facebook.com/messages/t/bobby.tagget)
       - Game Programmer
       - Music Programmer
-  _**Josh Merkas**_
+  
+  [Josh Merkas](https://www.facebook.com/messages/t/jmerk5)      
       - 2D Modeller
       - Animator
       
-  _**Sean Rico Tu**_
+  [Sean Rico Tu](https://www.facebook.com/messages/t/FireBlaze.SeanTu)
       - Programmer
       
-  _**Levi Miller**_
+  [Levi Miller](https://www.facebook.com/messages/t/ldextermiller)
       - Menu and UI artist
 
-DESCRIPTION
-===========
+###__DESCRIPTION__
 
   * God Complex is a supernatural action game which involves the main character believing he has a god complex and it is up to the player to fulfill his desires
   
-TASK LIST
-=========
+###__TASK LIST__
+
 
 - [ ] Flow Charts
 - [ ] Game Description
