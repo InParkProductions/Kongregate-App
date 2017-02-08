@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour {
 
 			//get current mouse position in Unity units
 		   		Vector3 mousePos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, cameraPos.y, cameraPos.z);
-		   		Debug.Log(mousePos);
+
 		    /* Move camera if the following conditions are met:
 		    	 * The camera has not exceeded the game wold space.
 		    	 * The camera has exceeded the game world space and the mouse is positioned opposite to world end/start.

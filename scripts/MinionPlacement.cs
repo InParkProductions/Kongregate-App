@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MinionPlacement : MonoBehaviour {
 
+	public Transform[] station;
+	GameObject minion;
+
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,10 +15,13 @@ public class MinionPlacement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		
+				 
 
-		if(transform.position.y > 0.5 && transform.position.y < 8)
-		transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z);
-		//Debug.Log(transform.position);
+	}
+
+	void OnMouseDown() {
+		minion = Resources.Load("prefabs/Minion") as GameObject;
+		Instantiate(minion, transform.position, Quaternion.identity);
 	}
 }
