@@ -1,0 +1,9 @@
+procedure for pushing content 
+
+
+1. place file in kongregate app folder 
+2. cd Kongregate-App
+3. git add . 
+4. git commit -m "description" 
+5. git push  
+ 
