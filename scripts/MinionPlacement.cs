@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class MinionPlacement : MonoBehaviour {
 
-	public Transform[] station;
 	GameObject minion;
+	Transform[] patrolPoint;
 
 
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
 	// Update is called once per frame
 	void Update () {
 		
@@ -22,6 +21,8 @@ public class MinionPlacement : MonoBehaviour {
 
 	void OnMouseDown() {
 		minion = Resources.Load("prefabs/Minion") as GameObject;
-		Instantiate(minion, transform.position, Quaternion.identity);
+		GameObject instance = Instantiate(minion, transform.position, Quaternion.identity) as GameObject;
+
+		instance.transform.parent = gameObject.transform.parent;
 	}
 }

@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour {
 
 	private Vector3 cameraPos;
 	public float moveSpeed;
-	public GameManager gameManager;
 
 	void Start () {
 		
@@ -35,9 +34,9 @@ public class CameraController : MonoBehaviour {
 		    	 * The camera has exceeded the game world space and the mouse is positioned opposite to world end/start.
 		    */
 
-				if(cameraMin >= gameManager.getWorldStart() && cameraMax <= gameManager.getWorldEnd() || 
-				   cameraMax > gameManager.getWorldEnd() && mousePos.x <= cameraPos.x				  ||
-				   cameraMin < gameManager.getWorldStart() && mousePos.x >= cameraPos.x                 ) {
+				if(cameraMin >= GameManager.getWorldStart() && cameraMax <= GameManager.getWorldEnd() || 
+				   cameraMax > GameManager.getWorldEnd() && mousePos.x <= cameraPos.x				  ||
+				   cameraMin < GameManager.getWorldStart() && mousePos.x >= cameraPos.x                 ) {
 
 					//smoothly move camera with mouse along the x-axis while keeping y and z axis constraint to starting positions
 						transform.position = Vector3.Lerp(transform.position, cameraPos + (mousePos - cameraPos), Time.deltaTime * moveSpeed);

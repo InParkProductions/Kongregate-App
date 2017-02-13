@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 	//	=================
 
 	public int health;
-	private int score;
+	//private int score;
 	public float speed = 10.0F;
 	public float rotationSpeed = 100.0F;
 
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
 			//  SPECIFY RAY DIRECTION
 			//	=====================
 
-			Vector3 down = transform.TransformDirection ( Vector3.down );
+			//Vector3 down = transform.TransformDirection ( Vector3.down );
 
 			//	CREATE RAY AND RETURN TRUE IF HIT
 			//	=================================
@@ -153,8 +153,8 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public int GetPlayerScore ()
-	{
-		return score;
-	}
+//	public int GetPlayerScore ()
+//	{
+//		return score;
+//	}
 }

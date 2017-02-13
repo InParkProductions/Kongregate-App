@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 	public Transform baseOfLevel;
-	float worldStart;
-	float worldEnd;
+	static float worldStart;
+	static float worldEnd;
 
 	// Use this for initialization
 	void Start () {
@@ -19,17 +19,36 @@ public class GameManager : MonoBehaviour {
 		
 	}
 
-	public float getObjectsCentrePoint (Transform gameObject) {
+	public static float getObjectsCentrePoint (Transform gameObject) {
 
 		//width in unity units / 2
 		return gameObject.localScale.x / 2;
 	}
 
-	public float getWorldStart () { 
+	public static float getWorldStart () { 
 		return worldStart;
 	}
 
-	public float getWorldEnd () {
+	public static float getWorldEnd () {
 		return worldEnd;
+	}
+
+	public static List<Transform> getPatrolPath(Transform gameObject)
+	{
+		Transform obj = gameObject;
+		List<Transform> patrolPath = new List<Transform>();
+
+		foreach(Transform child in obj.parent)
+		{
+			if(child.name == "PatrolPoints")
+			{
+				foreach(Transform point in child)
+				{
+					patrolPath.Add(point);
+				}
+			}
+		}
+
+		return patrolPath;
 	}
 }
