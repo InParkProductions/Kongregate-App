@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-	public Transform baseOfLevel;
+	public Transform startingArea;
+	public Transform endingArea;
 	static float worldStart;
 	static float worldEnd;
 
 	// Use this for initialization
 	void Start () {
 		Transform baseOfLevel = GameObject.FindGameObjectWithTag("Level Base").transform;
-		worldStart = baseOfLevel.position.x - getObjectsCentrePoint(baseOfLevel);
-		worldEnd = baseOfLevel.position.x + getObjectsCentrePoint(baseOfLevel);
+		worldStart = startingArea.position.x - getObjectsCentrePoint(baseOfLevel);
+		worldEnd = endingArea.position.x + getObjectsCentrePoint(baseOfLevel);
 	}
 	
 	// Update is called once per frame

@@ -144,6 +144,11 @@ public class Player : MonoBehaviour
 			isJumping = false;
 		}
 
+		if( other.gameObject.tag == "Jump Pad" )
+		{
+			Debug.Log("blah");
+		}
+
 		if( other.gameObject.tag == "Unhealthy" || other.gameObject.tag == "Jumper")
 		{
 			//http://answers.unity3d.com/questions/750235/how-to-add-opposite-force-of-current-direction.html

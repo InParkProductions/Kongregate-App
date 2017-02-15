@@ -10,7 +10,8 @@ public class CameraController : MonoBehaviour {
 	public float moveSpeed;
 
 	void Start () {
-		
+		Debug.Log(GameManager.getWorldStart());
+		Debug.Log(GameManager.getWorldEnd());
 	}
 
 	void Update () {
@@ -21,7 +22,7 @@ public class CameraController : MonoBehaviour {
 		// ==============================
 			 float cameraMin = cameraPos.x - Camera.main.orthographicSize * Screen.width / Screen.height;
 			 float cameraMax = Camera.main.orthographicSize * Screen.width / Screen.height + cameraPos.x;
-
+		
 
 		//	MOVE CAMERA WITH MOUSE
 		//	======================
