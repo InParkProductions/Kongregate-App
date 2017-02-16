@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		Debug.Log("Player Velocity: " + rb.velocity);
 //		float translation = Input.GetAxis("Vertical") * speed;
 //		float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
 //		translation *= Time.deltaTime;
@@ -125,7 +126,6 @@ public class Player : MonoBehaviour
 		//	==============
 
 		moveDirection = new Vector3 ( Input.GetAxis ( "Horizontal" ), 0, Input.GetAxis ( "Vertical" ) );
-		Debug.Log(moveDirection);
 
 		// 	INCREASE RIGIDBODY SPEED UNTIL MOVESPEED IS REACHED
 		//	==================================================
@@ -144,10 +144,6 @@ public class Player : MonoBehaviour
 			isJumping = false;
 		}
 
-		if( other.gameObject.tag == "Jump Pad" )
-		{
-			Debug.Log("blah");
-		}
 
 		if( other.gameObject.tag == "Unhealthy" || other.gameObject.tag == "Jumper")
 		{
@@ -157,6 +153,7 @@ public class Player : MonoBehaviour
 			GameObject.Find("HealthManager").SendMessage("updateHealth", health);
 		}
 	}
+
 
 //	public int GetPlayerScore ()
 //	{

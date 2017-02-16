@@ -20,9 +20,10 @@ public class MinionPlacement : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		minion = Resources.Load("prefabs/Minion") as GameObject;
+		minion = Resources.Load("prefabs/LandMinion") as GameObject;
 		GameObject instance = Instantiate(minion, transform.position, Quaternion.identity) as GameObject;
 
 		instance.transform.parent = gameObject.transform.parent;
+
 	}
 }
