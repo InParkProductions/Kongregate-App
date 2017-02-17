@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Transform baseOfLevel = GameObject.FindGameObjectWithTag("Level Base").transform;
-		worldStart = startingArea.position.x - getObjectsCentrePoint(baseOfLevel);
-		worldEnd = endingArea.position.x + getObjectsCentrePoint(baseOfLevel);
+		Transform baseOfLevelStart = GameObject.FindGameObjectWithTag("Start Level Base").transform;
+		Transform baseOfLevelEnd = GameObject.FindGameObjectWithTag("End Level Base").transform;
+
+		worldStart = startingArea.position.x - getObjectsCentrePoint(baseOfLevelStart);
+		worldEnd = endingArea.position.x + getObjectsCentrePoint(baseOfLevelEnd);
 	}
 	
 	// Update is called once per frame
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public static float getWorldStart () { 
+
 		return worldStart;
 	}
 

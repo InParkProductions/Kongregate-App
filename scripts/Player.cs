@@ -41,7 +41,6 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log("Player Velocity: " + rb.velocity);
 //		float translation = Input.GetAxis("Vertical") * speed;
 //		float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
 //		translation *= Time.deltaTime;

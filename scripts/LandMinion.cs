@@ -14,7 +14,7 @@ public class LandMinion : Minion {
 	}
 	private State currentState;
 
-	void Start () {
+	new void Start () {
 		base.Start();
 		rb = GetComponent<Rigidbody>();
 	}

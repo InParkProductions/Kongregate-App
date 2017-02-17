@@ -12,7 +12,7 @@ public class FlyingMinion : Minion {
 
 	private State currentState;
 	// Use this for initialization
-	void Start () { 
+	new void Start () { 
 		currentState = State.patrol;
 
 	}
