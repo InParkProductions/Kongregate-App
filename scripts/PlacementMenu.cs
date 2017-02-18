@@ -27,7 +27,7 @@ public class PlacementMenu : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void LateUpdate () {
+	void FixedUpdate () {
 
 			//get current mouse position in Unity units
 		   		Vector3 mousePos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
@@ -39,8 +39,7 @@ public class PlacementMenu : MonoBehaviour {
 
 			if(cameraMin >= GameManager.getWorldStart() && cameraMax <= GameManager.getWorldEnd() && 
 			  (mousePos.x <= cameraMin + mainCameraScript.getMovementOffset() || mousePos.x >= cameraMax - mainCameraScript.getMovementOffset() )) {
-			Debug.Log("Menu Pos to Move: " + (menuPos + (mousePos - menuPos)));
-			Debug.Log("Menu Pos to Move 2: " + (transform.position + (mousePos - transform.position)));
+			Debug.Log("PlacementMenu: " + mousePos);
 					//smoothly move camera with mouse along the x-axis while keeping y and z axis constraint to starting positions
 						transform.position = Vector3.Lerp(transform.position, menuPos + (mousePos - menuPos), Time.deltaTime * mainCameraScript.getMoveSpeed());
 
