@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+
 	public Transform startingArea;
 	public Transform endingArea;
 	static float worldStart;
@@ -10,11 +11,14 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Transform baseOfLevelStart = GameObject.FindGameObjectWithTag("Start Level Base").transform;
-		Transform baseOfLevelEnd = GameObject.FindGameObjectWithTag("End Level Base").transform;
 
-		worldStart = startingArea.position.x - getObjectsCentrePoint(baseOfLevelStart);
-		worldEnd = endingArea.position.x + getObjectsCentrePoint(baseOfLevelEnd);
+		//Find objects that represent the start and end of a level
+			Transform baseOfLevelStart = GameObject.FindGameObjectWithTag("Start Level Base").transform;
+			Transform baseOfLevelEnd = GameObject.FindGameObjectWithTag("End Level Base").transform;
+
+		//Determine origin of starting object and world position of ending object's position and it's width
+			worldStart = startingArea.position.x - getObjectsCentrePoint(baseOfLevelStart);
+			worldEnd = endingArea.position.x + getObjectsCentrePoint(baseOfLevelEnd);
 	}
 	
 	// Update is called once per frame
@@ -24,7 +28,7 @@ public class GameManager : MonoBehaviour {
 
 	public static float getObjectsCentrePoint (Transform gameObject) {
 
-		//width in unity units / 2
+		//return gameObject's width in Unity units / 2
 		return gameObject.localScale.x / 2;
 	}
 
@@ -39,20 +43,32 @@ public class GameManager : MonoBehaviour {
 
 	public static List<Transform> getPatrolPath(Transform gameObject)
 	{
-		Transform obj = gameObject;
-		List<Transform> patrolPath = new List<Transform>();
+		// Initialise patrolPath as a dynamically sizes list of patrol points
+			List<Transform> patrolPath = new List<Transform>();
 
-		foreach(Transform child in obj.parent)
-		{
-			if(child.name == "PatrolPoints")
+		// Find the minions designated patrol path at spawned patrol station
+			foreach(Transform child in gameObject.parent)
 			{
-				foreach(Transform point in child)
-				{
-					patrolPath.Add(point);
-				}
+				// If this gameObjects sibling is a patrol point  
+					if(child.name == "PatrolPoints")
+					{
+						foreach(Transform point in child)
+						{
+							// Add all the points to the patrolPath
+							patrolPath.Add(point);
+						}
+					}
 			}
-		}
 
-		return patrolPath;
+		// Give minion the patrolPath data
+			return patrolPath;
+	}
+
+	public static Vector3 MoveObjectAlongScreen(Vector3 currentPos, Vector3 nextPos, float speed)
+	{
+			Vector3 distanceToNextPos = currentPos + (nextPos - currentPos);
+
+		// Return the action required to move gameObject to next position
+			return Vector3.Lerp(currentPos, distanceToNextPos, Time.deltaTime * speed);
 	}
 }

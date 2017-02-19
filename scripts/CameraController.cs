@@ -8,40 +8,81 @@ public class CameraController : MonoBehaviour {
 
 	private Vector3 cameraPos;
 	private Vector3 menuPos;
+	private float cameraStartRenderingAt;
+	private float cameraFinishRenderingAt;
 	public float moveSpeed;
-	private Transform placementMenuObject;
-	private PlacementMenu placementMenuScript;
 
-	private float cameraMin;
-	private float cameraMax;
-	public float movementOffset;
+	private Transform placementMenu;
+
+	public float moveMapAreaLength;
 	public float boundsAdjustment;
 	public int adjustmentSpeed;
 
 	void Start () {
-		placementMenuObject = GameObject.FindGameObjectWithTag("PlacementMenu").transform;
+		// Find placement menu object
+		placementMenu = GameObject.FindGameObjectWithTag("PlacementMenu").transform;
 	}
 
-	void Update () {
+	void FixedUpdate()
+	{
 		// store camera's current position for mouse position comparison
 		cameraPos = transform.position;
-		menuPos = placementMenuObject.position;
+		menuPos = placementMenu.position;
 
 
-		// DEFINE WORLD BEGINNING AND END
+		// DEFINE CURRENT WORLD VIEW
 		// ==============================
-			 cameraMin = cameraPos.x - Camera.main.orthographicSize * Screen.width / Screen.height;
-			 cameraMax = Camera.main.orthographicSize * Screen.width / Screen.height + cameraPos.x;
 
-		
+			 cameraStartRenderingAt = cameraPos.x - Camera.main.orthographicSize * Screen.width / Screen.height;
+			 cameraFinishRenderingAt = Camera.main.orthographicSize * Screen.width / Screen.height + cameraPos.x;
+
+		// <!! DEFINE CURRENT WORLD VIEW !!>
+
+
+		//	MOVE CAMERA WITH MOUSE
+		//	======================
+
+			//get current mouse position in Unity units
+
+		   		Vector3 mousePos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, cameraPos.y, cameraPos.z);
+				Vector3 mousePosFromMenu = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, menuPos.y, menuPos.z);
+
+
 
 		    /* Move camera if the following conditions are met:
-		    	 * The camera has not exceeded the game wold space.
-		    	 * The camera has exceeded the game world space and the mouse is positioned opposite to world end/start.
+		    	 * The camera has not exceeded the game world bounds and mouse is position in move map area.
+		    	 * The camera has exceeded the game world bounds and the mouse is positioned opposite to world end/start move map area.
 		    */
 
+				if(   getRenderStart() >= GameManager.getWorldStart()    &&     getRenderEnd() <= GameManager.getWorldEnd()       && 
+				   (  mousePos.x <= getRenderStart() + getMoveMapArea()  ||     mousePos.x >= getRenderEnd() - getMoveMapArea())) {
+
+					   // Smoothly move camera and menu with mouse along the x-axis while keeping y and z axis constraint to starting positions
+						   transform.position = GameManager.MoveObjectAlongScreen(cameraPos, mousePos, moveSpeed);
+						   placementMenu.position = GameManager.MoveObjectAlongScreen(menuPos, mousePosFromMenu, moveSpeed);
+
+				    }
+			// If camera view has exceeded world size adjust the view to the nearest world view
+
+				if( getRenderStart() < GameManager.getWorldStart() )
+				{
+					Vector3 cameraAdjustment = CalculateBoundsAdjustment(cameraPos, true);
+					Vector3 placementMenuAdjustment = CalculateBoundsAdjustment(menuPos, true);
+
+					MoveInBounds(transform, cameraAdjustment);
+					MoveInBounds(placementMenu, placementMenuAdjustment);
+				}
+				else
+				if(getRenderEnd() > GameManager.getWorldEnd())
+				{
+					Vector3 cameraAdjustment =  CalculateBoundsAdjustment(cameraPos, false);
+					Vector3 placementMenuAdjustment = CalculateBoundsAdjustment(menuPos, false);
+
+					MoveInBounds(transform, cameraAdjustment);
+					MoveInBounds(placementMenu, placementMenuAdjustment);
+				}
+
 		// <!! MOVE CAMERA WITH MOUSE !!>
-		//
 
 		// QUIT GAME IN APPLICATION
 		// ========================
@@ -50,70 +91,50 @@ public class CameraController : MonoBehaviour {
 			{
 				Application.Quit ();
 			}
-
 	}
 
-	public float getMinPos()
+	public float getRenderStart ()
 	{
-		return cameraMin;
+		return cameraStartRenderingAt;
 	}
 
-	public float getMaxPos()
+	public float getRenderEnd ()
 	{
-		return cameraMax;
+		return cameraFinishRenderingAt;
 	}
 
-	public float getMoveSpeed()
+	public float getMoveSpeed ()
 	{
 		return moveSpeed;
 	}
 
-	public float getMovementOffset()
+	public float getMoveMapArea ()
 	{
-		return movementOffset;
+		return moveMapAreaLength;
 	}
 
-	public float getBoundsAdjustment()
+	public float getBoundsAdjustment ()
 	{
 		return boundsAdjustment;
 	}
 
-	public float getAdjustmentSpeed()
+	public float getAdjustmentSpeed ()
 	{
 		return adjustmentSpeed;
 	}
 
-	void FixedUpdate()
+	private Vector3 CalculateBoundsAdjustment(Vector3 currentPositionOfObject, bool fromWorldStart)
 	{
-		//	MOVE CAMERA WITH MOUSE
-		//	======================
-
-			//get current mouse position in Unity units
-		   		Vector3 mousePos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, cameraPos.y, cameraPos.z);
-		Vector3 mousePosFromMenu = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, menuPos.y, menuPos.z);
-
-		if(cameraMin >= GameManager.getWorldStart() && cameraMax <= GameManager.getWorldEnd() && 
-				   (mousePos.x <= cameraMin + movementOffset || mousePos.x >= cameraMax  - movementOffset)) {
-
-					//smoothly move camera with mouse along the x-axis while keeping y and z axis constraint to starting positions
-						transform.position = Vector3.Lerp(transform.position, cameraPos + (mousePos - cameraPos), Time.deltaTime * moveSpeed);
-						placementMenuObject.position = Vector3.Lerp(placementMenuObject.position, menuPos + (mousePosFromMenu - menuPos), Time.deltaTime * moveSpeed);
-
-			    }
-		if(cameraMin < GameManager.getWorldStart())
-		{
-			Vector3 cameraAdjusment = transform.position + new Vector3(boundsAdjustment, 0, 0);
-			Vector3 menuAdjustment = placementMenuObject.position + new Vector3(boundsAdjustment, 0, 0);
-			transform.position = Vector3.Lerp(transform.position, cameraAdjusment, Time.deltaTime * adjustmentSpeed);
-			placementMenuObject.position = Vector3.Lerp(placementMenuObject.position, menuAdjustment, Time.deltaTime * adjustmentSpeed);
-		}
+		if(fromWorldStart)
+			return ( currentPositionOfObject + new Vector3(boundsAdjustment, 0, 0) );
 		else
-		if(cameraMax > GameManager.getWorldEnd())
-		{
-			Vector3 cameraAdjustment = transform.position - new Vector3(boundsAdjustment, 0, 0);
-			Vector3 menuAdjustment = placementMenuObject.position - new Vector3(boundsAdjustment, 0, 0);
-			transform.position = Vector3.Lerp(transform.position, cameraAdjustment, Time.deltaTime * adjustmentSpeed);
-			placementMenuObject.position = Vector3.Lerp(placementMenuObject.position, menuAdjustment, Time.deltaTime * adjustmentSpeed);
-		}
+			return ( currentPositionOfObject - new Vector3(boundsAdjustment, 0, 0) );
+	}
+
+	private void MoveInBounds (Transform gameObject, Vector3 adjustmentParams)
+	{
+		//smoothly move object towards game environment at a seamless pace
+
+			gameObject.position = Vector3.Lerp(gameObject.position, adjustmentParams, Time.deltaTime * adjustmentSpeed);
 	}
 }

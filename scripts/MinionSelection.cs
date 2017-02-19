@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MinionSelection : MonoBehaviour {
 
+	private GameObject[] stations;
 	// Use this for initialization
+
 	void Start () {
-		
+		stations = GameObject.FindGameObjectsWithTag("Station");
 	}
 	
 	// Update is called once per frame
@@ -14,8 +16,12 @@ public class MinionSelection : MonoBehaviour {
 		
 	}
 
-	void OnMouseDown()
+	void OnMouseUp()
 	{
-		Debug.Log(gameObject.name);
+		foreach(GameObject station in stations)
+		{
+			MinionPlacement placementScript = station.GetComponent<MinionPlacement>();
+			placementScript.setMinionToSummon(gameObject.name);
+		}
 	}
 }

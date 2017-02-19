@@ -6,36 +6,34 @@ public class Minion : MonoBehaviour {
 
 	protected List<Transform> patrolPath;
 
-	public float searchRadius;
-	public int moveSpeed;
-	protected int currentPatrolPoint = 0;
+	// Determine when to look for next object when nearing targetted patrol point
+	// If transform position + (transform position - patrol point position) < searchRadius
+	//	 search for next patrol point
+
+		public float searchRadius;
+		public int moveSpeed;
+	// currentPatrolPoint[0] = designated station transform position
+
+		protected int currentPatrolPoint = 0;
 
 	public float attackRange;
+
+	// Player reference used to determine when minion engages and attacks the player
 	protected Transform player;
 
 	// Use this for initialization
-	protected void Start () { 
-		patrolPath = new List<Transform>( GameManager.getPatrolPath(gameObject.transform) );
-		player = GameObject.FindGameObjectWithTag("Player").transform;
+	protected void Start () {
+		// Assign a patrol path to the minion
 
-		foreach(Transform path in patrolPath)
-		{
-			Debug.Log(path.localPosition);
-		}
+			patrolPath = new List<Transform>( GameManager.getPatrolPath(gameObject.transform) );
 
-	}
-
-	void OnTriggerEnter(Collider other)
-	{
-		if( other.gameObject.tag == "Jump Pad" )
-		{
-			Debug.Log("blah");
-		}
+			player = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
 	void OnDrawGizmos()
 	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, attackRange);
+		// Monitor attack range
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere(transform.position, attackRange);
 	}
 }

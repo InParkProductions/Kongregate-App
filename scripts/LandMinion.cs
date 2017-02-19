@@ -28,22 +28,29 @@ public class LandMinion : Minion {
 
 	void commencePatrol()
 	{
+		//Get next position required to smoothly move to patrol point (current patrol point's position - transform) at a rate of moveSpeed
 		Vector3 direction = (patrolPath[currentPatrolPoint].transform.position - transform.position).normalized * moveSpeed;
-		if(rb.velocity.magnitude <= moveSpeed)
-		rb.AddForce(direction * moveSpeed);
 
-		Debug.Log(Vector3.Distance(transform.position, direction));
-		if(Vector3.Distance(transform.position, patrolPath[currentPatrolPoint].transform.position) <= searchRadius)
-		{
-			if(currentPatrolPoint == patrolPath.Count - 1)
+		// increase rigidbody speed until moveSpeed is reached
+			if(rb.velocity.magnitude <= moveSpeed)
+
+				rb.AddForce(direction * moveSpeed);
+
+		// If transform position + (transform position - patrol point position) < searchRadius
+		//	 search for next patrol point
+			if(Vector3.Distance(transform.position, patrolPath[currentPatrolPoint].transform.position) <= searchRadius)
 			{
-				currentPatrolPoint = 0;
+				// if last point is reached begin patrol anew
+				if(currentPatrolPoint == patrolPath.Count - 1)
+				{
+					currentPatrolPoint = 0;
+				}
+				else
+				{
+					// advance to next patrol point
+					currentPatrolPoint++;
+				}
 			}
-			else
-			{
-				currentPatrolPoint++;
-			}
-		}
 	}
 
 
